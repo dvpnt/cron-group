@@ -5,4 +5,5 @@
 .eslintignore
 .npmignore
 .gitignore
+.travis.yml
 test.js
