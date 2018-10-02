@@ -1,0 +1,8 @@
+.nyc_output/
+*.log
+*.tgz
+.eslintrc.json
+.eslintignore
+.npmignore
+.gitignore
+test.js

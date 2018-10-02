@@ -1,0 +1,36 @@
+{
+  "name": "cron-group",
+  "version": "0.0.1",
+  "description": "manage a group of cron workers",
+  "license": "MIT",
+  "main": "index.js",
+  "author": "Aleksey Timchenko <flegmatik.bel@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dvpnt/cron-group.git"
+  },
+  "scripts": {
+    "lint": "eslint --ext js ./",
+    "test": "tap test.js --bail --coverage --coverage-report=text --100"
+  },
+  "keywords": [
+    "cron",
+    "group",
+    "manager",
+    "worker",
+    "schedule",
+    "cron job"
+  ],
+  "devDependencies": {
+    "eslint": "4.5.0",
+    "eslint-config-dvpnt": "2.2.0",
+    "sinon": "6.3.4",
+    "tap": "12.0.1"
+  },
+  "dependencies": {
+    "cron": "1.4.1"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  }
+}
