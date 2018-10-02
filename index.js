@@ -77,11 +77,14 @@ class CronGroup extends EventEmitter {
 			return Promise.resolve();
 		} else {
 			return new Promise((resolve) => {
-				this.on('complete', () => {
+				const handler = () => {
 					if (this.runningCount === 0) {
 						resolve();
 					}
-				});
+				};
+
+				this.on('complete', handler);
+				this.on('error', handler);
 			});
 		}
 	}

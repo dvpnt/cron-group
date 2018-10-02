@@ -194,16 +194,26 @@ t.test('CronGroup', async (t) => {
 				worker: () => new Promise((resolve) => setTimeout(resolve, 200))
 			});
 
+			group.add({
+				name: 'baz',
+				schedule: '* * * * * *',
+				worker: () => new Promise((resolve, reject) => setTimeout(reject, 300))
+			});
+
 			const completeSpy = sinon.spy();
+			const errorSpy = sinon.spy();
 
 			group.on('complete', completeSpy);
+			group.on('error', errorSpy);
 
 			group.run('foo');
 			group.run('bar');
+			group.run('baz');
 
 			await group.stop();
 
 			t.ok(completeSpy.calledTwice, 'complete emitted twice');
+			t.ok(errorSpy.calledOnce, 'error emitted once');
 		});
 	});
 });
