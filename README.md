@@ -67,16 +67,16 @@ group.add({
 });
 
 group.on('run', ({name, runnedBy}) => {
-	logger.log(`${name} is runned by ${runnedBy}`);
+	console.log(`${name} is runned by ${runnedBy}`);
 });
 
 group.on('complete', ({name, runnedAt, completedAt}) => {
 	const prettyTime = Math.floor((completedAt - runnedAt) / 1000);
-	logger.log(`${name} successfully completed in ${prettyTime}s`);
+	console.log(`${name} successfully completed in ${prettyTime}s`);
 });
 
 group.on('error', ({name, err}) => {
-	logger.error(`${name} is completed with error\n${err.stack || err}`);
+	console.error(`${name} is completed with error\n${err.stack || err}`);
 });
 
 group.start();
