@@ -57,6 +57,16 @@ t.test('CronGroup', async (t) => {
 	});
 
 	await t.test('run', async (t) => {
+		await t.test('unknown job', async (t) => {
+			const group = new CronGroup();
+
+			await t.rejects(
+				group.run('foo'),
+				{message: 'CronGroup: unknown job "foo"'},
+				'should reject'
+			);
+		});
+
 		await t.test('success', async (t) => {
 			const group = new CronGroup();
 

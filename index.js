@@ -33,6 +33,10 @@ class CronGroup extends EventEmitter {
 	}
 
 	async run(name, runnedBy = 'manual') {
+		if (!this.jobs[name]) {
+			throw new Error(`CronGroup: unknown job "${name}"`);
+		}
+
 		if (this.jobs[name].isRunning) {
 			return;
 		}
