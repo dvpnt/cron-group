@@ -92,5 +92,4 @@ class CronGroup extends EventEmitter {
 	}
 }
 
-CronGroup.CronGroup = CronGroup;
 module.exports = CronGroup;
