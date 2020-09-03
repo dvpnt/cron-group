@@ -1,6 +1,6 @@
 {
   "name": "cron-group",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "manage a group of cron workers",
   "license": "MIT",
   "main": "index.js",
