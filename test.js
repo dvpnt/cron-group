@@ -226,6 +226,8 @@ t.test('CronGroup', async (t) => {
 
 			t.ok(completeSpy.calledTwice, 'complete emitted twice');
 			t.ok(errorSpy.calledOnce, 'error emitted once');
+			t.is(group.listenerCount('complete'), 1, 'check "complete" listeners count');
+			t.is(group.listenerCount('error'), 1, 'check "error" listeners count');
 		});
 	});
 });

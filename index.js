@@ -82,6 +82,8 @@ class CronGroup extends EventEmitter {
 		return new Promise((resolve) => {
 			const handler = () => {
 				if (this.runningCount === 0) {
+					this.off('complete', handler);
+					this.off('error', handler);
 					resolve();
 				}
 			};
