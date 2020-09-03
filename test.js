@@ -25,8 +25,9 @@ t.test('CronGroup', async (t) => {
 				worker: noop
 			});
 
-			t.ok(group.jobs.foo, 'check added job');
-			const foo = group.jobs.foo;
+			const {foo} = group.jobs;
+
+			t.ok(foo, 'check added job');
 			t.type(foo.cron, CronJob, 'check CronJob instance');
 			t.is(foo.schedule, '* * * * * *', 'check schedule');
 			t.is(foo.worker, noop, 'check worker');
@@ -130,11 +131,12 @@ t.test('CronGroup', async (t) => {
 
 		await t.test('with error', async (t) => {
 			const group = new CronGroup();
+			const workerError = new Error('error!');
 
 			group.add({
 				name: 'foo',
 				schedule: '* * * * * *',
-				worker: () => Promise.reject('error!')
+				worker: () => Promise.reject(workerError)
 			});
 
 			const runSpy = sinon.spy();
@@ -145,7 +147,7 @@ t.test('CronGroup', async (t) => {
 			group.on('complete', completeSpy);
 			group.on('error', ({name, err}) => {
 				t.is(name, 'foo', 'check name');
-				t.is(err, 'error!', 'check error');
+				t.is(err, workerError, 'check error');
 				errorSpy();
 			});
 

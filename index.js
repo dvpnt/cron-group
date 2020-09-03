@@ -67,30 +67,28 @@ class CronGroup extends EventEmitter {
 	}
 
 	start() {
-		for (const {cron} of Object.values(this.jobs)) {
+		Object.values(this.jobs).forEach(({cron}) => {
 			cron.start();
-		}
+		});
 	}
 
-	stop() {
-		for (const {cron} of Object.values(this.jobs)) {
+	async stop() {
+		Object.values(this.jobs).forEach(({cron}) => {
 			cron.stop();
-		}
+		});
 
-		if (this.runningCount === 0) {
-			return Promise.resolve();
-		} else {
-			return new Promise((resolve) => {
-				const handler = () => {
-					if (this.runningCount === 0) {
-						resolve();
-					}
-				};
+		if (this.runningCount === 0) return;
 
-				this.on('complete', handler);
-				this.on('error', handler);
-			});
-		}
+		return new Promise((resolve) => {
+			const handler = () => {
+				if (this.runningCount === 0) {
+					resolve();
+				}
+			};
+
+			this.on('complete', handler);
+			this.on('error', handler);
+		});
 	}
 }
 
