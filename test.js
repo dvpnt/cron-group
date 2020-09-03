@@ -50,7 +50,7 @@ t.test('CronGroup', async (t) => {
 					schedule: '* * * * * *',
 					worker: noop
 				}),
-				{message: 'CronGroup: cron with name "foo" already exist'},
+				{message: 'CronGroup: job with name "foo" already exist'},
 				'throw'
 			);
 			t.end();
@@ -80,18 +80,18 @@ t.test('CronGroup', async (t) => {
 			const runSpy = sinon.spy();
 			const completeSpy = sinon.spy();
 
-			group.on('run', ({name, runnedAt, runnedBy}) => {
+			group.on('run', ({name, runAt, cause}) => {
 				t.is(name, 'foo', 'check name');
-				t.ok(runnedAt, 'check runnedAt');
-				t.is(runnedBy, 'manual', 'check runnedBy');
+				t.ok(runAt, 'check runAt');
+				t.is(cause, 'manual', 'check cause');
 				t.is(group.jobs.foo.isRunning, true, 'check isRunning');
 				t.is(group.runningCount, 1, 'check runningCount');
 				runSpy();
 			});
 
-			group.on('complete', ({name, result, runnedAt, completedAt}) => {
+			group.on('complete', ({name, result, runAt, completedAt}) => {
 				t.is(name, 'foo', 'check name');
-				t.ok(runnedAt, 'check runnedAt');
+				t.ok(runAt, 'check runAt');
 				t.ok(completedAt, 'check completedAt');
 				t.is(result, 'ok!', 'check result');
 				t.is(group.jobs.foo.isRunning, false, 'check isRunning');

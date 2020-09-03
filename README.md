@@ -35,10 +35,10 @@ Disable cron for all added jobs, and wait until all jobs is complete.
 ## Events
 CronGroup is subclass of [EventEmitter](https://nodejs.org/api/events.html#events_class_eventemitter), so it fires some events.
 
-### `on('complete', {name, result, runnedAt, completedAt})`
+### `on('complete', {name, result, runAt, completedAt})`
 * `name` - name of job
 * `result` - result returned from worker function
-* `runnedAt` - when job is run
+* `runAt` - when job is run
 * `completedAt` - whe job is complete
 
 ### `on('error', {name, err})`
@@ -67,12 +67,12 @@ group.add({
 	worker: new Promise((resolve) => setTimeout(resolve, 1000))
 });
 
-group.on('run', ({name, runnedBy}) => {
-	console.log(`${name} is runned by ${runnedBy}`);
+group.on('run', ({name, cause}) => {
+	console.log(`${name} is run by ${cause}`);
 });
 
-group.on('complete', ({name, runnedAt, completedAt}) => {
-	const prettyTime = Math.floor((completedAt - runnedAt) / 1000);
+group.on('complete', ({name, runAt, completedAt}) => {
+	const prettyTime = Math.floor((completedAt - runAt) / 1000);
 	console.log(`${name} successfully completed in ${prettyTime}s`);
 });
 

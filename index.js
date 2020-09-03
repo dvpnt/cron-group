@@ -12,7 +12,7 @@ class CronGroup extends EventEmitter {
 
 	add({name, schedule, worker}) {
 		if (this.jobs[name]) {
-			throw new Error(`CronGroup: cron with name "${name}" already exist`);
+			throw new Error(`CronGroup: job with name "${name}" already exist`);
 		}
 
 		const cron = new CronJob({
@@ -32,7 +32,7 @@ class CronGroup extends EventEmitter {
 		};
 	}
 
-	async run(name, runnedBy = 'manual') {
+	async run(name, cause = 'manual') {
 		if (!this.jobs[name]) {
 			throw new Error(`CronGroup: unknown job "${name}"`);
 		}
@@ -42,11 +42,11 @@ class CronGroup extends EventEmitter {
 		}
 
 		const {worker} = this.jobs[name];
-		const runnedAt = Date.now();
+		const runAt = Date.now();
 
 		this.jobs[name].isRunning = true;
 		this.runningCount++;
-		this.emit('run', {name, runnedAt, runnedBy});
+		this.emit('run', {name, runAt, cause});
 
 		try {
 			const result = await worker();
@@ -56,7 +56,7 @@ class CronGroup extends EventEmitter {
 			this.emit('complete', {
 				name,
 				result,
-				runnedAt,
+				runAt,
 				completedAt: Date.now()
 			});
 		} catch (err) {
